@@ -1,4 +1,4 @@
-package main.java.com.example;
+package com.example;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +10,11 @@ import java.util.Date;
 
 @Controller
 public class HelloController {
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String all (Model model) {
+		return "hello";
+	}
 
 	@RequestMapping(value = "/hello", method = RequestMethod.GET)
 	public String hello(Model model) {
