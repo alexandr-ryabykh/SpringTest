@@ -11,28 +11,21 @@ import java.util.Date;
 @Controller
 public class HelloController {
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String all (Model model) {
-		return "hello";
-	}
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String all(Model model) {
+        Date date = new Date();
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
+                DateFormat.LONG);
 
-	@RequestMapping(value = "/hello", method = RequestMethod.GET)
-	public String hello(Model model) {
+        String formattedDate = dateFormat.format(date);
 
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
-				DateFormat.LONG);
+        model.addAttribute("currentTime", formattedDate);
+        return "hello";
+    }
 
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("currentTime", formattedDate);
-
-		return "hello";
-	}
-
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String test(Model model) {
-		return "test";
-	}
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test(Model model) {
+        return "test";
+    }
 
 }
