@@ -8,6 +8,6 @@
 </head>
 <body>
 The happiest cat in the world :)
-<img src="http://bigpicture.ru/wp-content/uploads/2015/07/320.jpg">
+<img src="http://www.29palms.ru/photo/blog/cats/predislovie/resized/001_Kotenok_Baby_cat_portrait_Foto_Julija_Sapic_-_Depositphotos.jpg">
 </body>
 </html>
