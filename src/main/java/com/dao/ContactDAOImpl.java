@@ -32,8 +32,8 @@ public class ContactDAOImpl implements ContactDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<Contact> listContacts() {
-        List<Contact> personsList = sessionFactory.getCurrentSession().createCriteria(Contact.class).list();
-        return personsList;
+        List<Contact> contactList = sessionFactory.getCurrentSession().createCriteria(Contact.class).list();
+        return contactList;
     }
 
     @Override
