@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@Controller()
 public class ContactController {
 
     private ContactDAO contactDAO;
@@ -19,7 +19,7 @@ public class ContactController {
         this.contactDAO = contactDAO;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/ls", method = RequestMethod.GET)
     public String listContacts(Model model) {
         model.addAttribute("contact", new Contact());
         model.addAttribute("listContacts", this.contactDAO.listContacts());

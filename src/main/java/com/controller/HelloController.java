@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.text.DateFormat;
 import java.util.Date;
 
-@Controller
+@Controller()
 public class HelloController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String all(Model model) {
         Date date = new Date();
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,

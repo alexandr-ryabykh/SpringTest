@@ -3,9 +3,11 @@ package com.dao;
 import com.model.Contact;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class ContactDAOImpl implements ContactDAO {
 
     private SessionFactory sessionFactory;
