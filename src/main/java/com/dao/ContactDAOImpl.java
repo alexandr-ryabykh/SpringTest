@@ -3,9 +3,11 @@ package com.dao;
 import com.model.Contact;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class ContactDAOImpl implements ContactDAO {
 
     private SessionFactory sessionFactory;
@@ -38,7 +40,11 @@ public class ContactDAOImpl implements ContactDAO {
 
     @Override
     public void removeContact(int id) {
-        sessionFactory.getCurrentSession().createQuery("DELETE FROM Contact WHERE id = " + id).executeUpdate();
+        //sessionFactory.getCurrentSession().createQuery("DELETE FROM Contact WHERE id = " + id).executeUpdate();
 
+        Contact contact = sessionFactory.getCurrentSession().load(Contact.class, id);
+        if (null != contact) {
+            sessionFactory.getCurrentSession().delete(contact);
+        }
     }
 }
