@@ -5,9 +5,9 @@ import com.model.Contact;
 import java.util.List;
 
 public interface ContactDAO {
-    public void addContact(Contact contact);
+    public Contact addContact(Contact contact);
 
-    public void editContact(Contact contact);
+    public Contact editContact(Contact contact);
 
     public Contact getId(int id);
 

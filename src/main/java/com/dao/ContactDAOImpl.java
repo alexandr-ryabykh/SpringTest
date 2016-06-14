@@ -1,7 +1,8 @@
 package com.dao;
 
 import com.model.Contact;
-import org.hibernate.Query;
+import com.utils.HibernateSessionFactory;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
 
@@ -14,37 +15,48 @@ public class ContactDAOImpl implements ContactDAO {
 
 
     @Override
-    public void addContact(Contact contact) {
-        sessionFactory.getCurrentSession().persist(contact);
-
+    public Contact addContact(Contact contact) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.save(contact);
+        session.getTransaction().commit();
+        session.close();
+        return contact;
     }
 
     @Override
-    public void editContact(Contact contact) {
-        sessionFactory.getCurrentSession().update(contact);
-
+    public Contact editContact(Contact contact) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.merge(contact);
+        session.getTransaction().commit();
+        session.close();
+        return contact;
     }
 
     @Override
     public Contact getId(int id) {
-        Query query = sessionFactory.getCurrentSession().createQuery("FROM Contact WHERE id=" + id);
-        return (Contact) query;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        Contact contact = session.get(Contact.class, id);
+        session.close();
+        return contact;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<Contact> listContacts() {
-        List<Contact> contactList = sessionFactory.getCurrentSession().createCriteria(Contact.class).list();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        List<Contact> contactList = session.createCriteria(Contact.class).list();
         return contactList;
     }
 
     @Override
     public void removeContact(int id) {
-        //sessionFactory.getCurrentSession().createQuery("DELETE FROM Contact WHERE id = " + id).executeUpdate();
-
-        Contact contact = sessionFactory.getCurrentSession().load(Contact.class, id);
-        if (null != contact) {
-            sessionFactory.getCurrentSession().delete(contact);
-        }
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        session.beginTransaction();
+        Contact contact = session.get(Contact.class, id);
+        session.delete(contact);
+        session.getTransaction().commit();
+        session.close();
     }
 }

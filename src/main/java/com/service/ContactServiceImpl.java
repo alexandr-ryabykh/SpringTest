@@ -10,13 +10,15 @@ public class ContactServiceImpl implements ContactService {
 
 
     @Override
-    public void addContact(Contact contact) {
+    public Contact addContact(Contact contact) {
         contactDAO.addContact(contact);
+        return contact;
     }
 
     @Override
-    public void editContact(Contact contact) {
+    public Contact editContact(Contact contact) {
         contactDAO.editContact(contact);
+        return contact;
     }
 
     @Override

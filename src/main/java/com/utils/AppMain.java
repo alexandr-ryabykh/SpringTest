@@ -4,6 +4,7 @@ import com.model.Contact;
 import org.hibernate.Session;
 
 public class AppMain {
+
     public static void main(String[] args) {
         System.out.println("Hibernate tutorial");
 
@@ -12,6 +13,7 @@ public class AppMain {
         session.beginTransaction();
 
         Contact contact = new Contact();
+        Contact contact1 = new Contact();
 
         contact.setFirstName("Alex");
         contact.setLastName("R");
@@ -20,7 +22,15 @@ public class AppMain {
         contact.setEmail("gg@gmail.com");
         contact.setTelephone(223332);
 
-        session.save(contact);
+        contact1.setFirstName("Vasya");
+        contact1.setLastName("M");
+        contact1.setId(2);
+        contact1.setAddress("kyiv");
+        contact1.setEmail("aa@mail.ru");
+        contact1.setTelephone(556655);
+
+        session.delete(contact);
+        session.save(contact1);
         session.getTransaction().commit();
 
         session.close();

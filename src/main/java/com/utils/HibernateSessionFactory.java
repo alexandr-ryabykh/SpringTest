@@ -9,7 +9,7 @@ public class HibernateSessionFactory {
     private static SessionFactory buildSessionFactory() {
 
         try {
-            return new Configuration().configure("/WEB-INF/hibernate.cfg.xml").buildSessionFactory();
+            return new Configuration().configure("/com/utils/hibernate.cfg.xml").buildSessionFactory();
         } catch (Exception e) {
 
             System.err.println("Initial SessionFactory creation failed: " + e);
