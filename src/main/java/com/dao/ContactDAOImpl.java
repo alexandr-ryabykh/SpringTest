@@ -45,8 +45,10 @@ public class ContactDAOImpl implements ContactDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<Contact> listContacts() {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        List<Contact> contactList = session.createCriteria(Contact.class).list();
+        SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        List<Contact> contactList = session.createQuery("from Contact ").list();
+        session.close();
         return contactList;
     }
 

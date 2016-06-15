@@ -1,52 +1,90 @@
 package com.controller;
 
-import com.dao.ContactDAO;
+import com.dao.ContactDAOImpl;
 import com.model.Contact;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
 
 @Controller()
 public class ContactController {
 
-    private ContactDAO contactDAO;
+    private ContactDAOImpl contactDAOimpl;
 
-    public void setContactDAO(ContactDAO contactDAO) {
-        this.contactDAO = contactDAO;
+    @Autowired
+    public ContactController(ContactDAOImpl contactDAOimpl) {
+        this.contactDAOimpl = contactDAOimpl;
     }
 
-    @RequestMapping(value = "/ls", method = RequestMethod.GET)
-    public String listContacts(Model model) {
-        model.addAttribute("contact", new Contact());
-        model.addAttribute("listContacts", this.contactDAO.listContacts());
+    public ContactController() {
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String welcome() {
         return "welcome";
     }
 
-    @RequestMapping(value = "/addContact", method = RequestMethod.GET)
-    public String addContact(@ModelAttribute("contact") Contact contact) {
+    @RequestMapping(value = "/currentDate", method = RequestMethod.GET)
+    public String all(Model model) {
+        Date date = new Date();
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
+                DateFormat.LONG);
 
-        if (contact.getId() == 0) {
-            this.contactDAO.addContact(contact);
-        }
-        return "redirect:/welcome";
+        String formattedDate = dateFormat.format(date);
+
+        model.addAttribute("currentTime", formattedDate);
+        return "currentDate";
     }
 
-    @RequestMapping(value = "/editContact", method = RequestMethod.GET)
-    public String editContact(HttpServletRequest request) {
-        int contactId = Integer.parseInt(request.getParameter("id"));
-        Contact contact = contactDAO.getId(contactId);
-        return "redirect:/welcome";
+    @RequestMapping(value = "/contact/all", method = RequestMethod.GET)
+    public String listContacts(Model model) {
+        List<Contact> contactList = this.contactDAOimpl.listContacts();
+        model.addAttribute("contactList", contactList);
+        return "contactList";
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String removeContact(HttpServletRequest request) {
-        int contactId = Integer.parseInt(request.getParameter("id"));
-        contactDAO.removeContact(contactId);
-        return ("redirect:/welcome");
+    @RequestMapping(value = "/contact/add", method = RequestMethod.GET)
+    public String getContact(Model model) {
+        model.addAttribute("personAttribute", new Contact());
+        return "addContact";
+    }
+
+    @RequestMapping(value = "/contact/add", method = RequestMethod.POST)
+    public String saveContact(@ModelAttribute("personAttribute") Contact contact) {
+        this.contactDAOimpl.addContact(contact);
+        return "redirect:/contact/all";
+    }
+
+    @RequestMapping(value = "/contact/{id}", method = RequestMethod.GET)
+    public String getEditContact(@PathVariable("id") int id,
+                                 Model model) {
+        model.addAttribute("personAttribute", this.contactDAOimpl.getId(id));
+        return "editContact";
+    }
+
+    @RequestMapping(value = "/contact/{id}", method = RequestMethod.POST)
+    public String saveEditContact(@ModelAttribute("personAttribute") Contact contact,
+                                  @PathVariable("id") int id,
+                                  Model model) {
+        contact.setId(id);
+        this.contactDAOimpl.editContact(contact);
+        model.addAttribute("id", id);
+        return "redirect:/contact/all";
+    }
+
+    @RequestMapping(value = "/contact/{id}/remove", method = RequestMethod.POST)
+    public String removeContact(@PathVariable int id) {
+        this.contactDAOimpl.getId(id);
+        this.contactDAOimpl.removeContact(id);
+        return "redirect:/contact/all";
     }
 }
 

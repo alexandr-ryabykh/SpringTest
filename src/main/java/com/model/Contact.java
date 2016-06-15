@@ -8,7 +8,7 @@ public class Contact {
     private int id;
     private String firstName;
     private String lastName;
-    private Integer telephone;
+    private String telephone;
     private String address;
     private String email;
 
@@ -44,11 +44,11 @@ public class Contact {
 
     @Basic
     @Column(name = "telephone", nullable = true)
-    public Integer getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(Integer telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
