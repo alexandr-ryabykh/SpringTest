@@ -5,18 +5,18 @@
     <title>Title</title>
 </head>
 <body>
-<form:form method="POST" modelAttribute="personAttribute">
+<form:form method="POST" modelAttribute="contact">
     <div class="field">
         <label>Name:</label>
-        <input type="text" name="firstName" value="${contact.name}"/>
+        <input type="text" name="firstName" value="${contact.firstName}"/>
     </div>
     <div class="field">
         <label>Surname:</label>
-        <input type="text" name="lastName" value="${contact.surname}"/>
+        <input type="text" name="lastName" value="${contact.lastName}"/>
     </div>
     <div class="field">
         <label>Phone:</label>
-        <input type="text" name="telephone" value="${contact.phoneNumber}"/>
+        <input type="text" name="telephone" value="${contact.telephone}"/>
     </div>
     <div class="field">
         <label>Address:</label>
@@ -28,7 +28,7 @@
     </div>
     <input type="submit"/>
 </form:form>
-<form:form method="POST" action="/contact/${contact.id}/remove">
+<form:form method="GET" action="/contact/${contact.id}/remove">
     <input type="submit" value="Remove"/>
 </form:form>
 </body>

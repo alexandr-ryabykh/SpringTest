@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -64,25 +65,21 @@ public class ContactController {
     }
 
     @RequestMapping(value = "/contact/{id}", method = RequestMethod.GET)
-    public String getEditContact(@PathVariable("id") int id,
-                                 Model model) {
-        model.addAttribute("personAttribute", this.contactDAOimpl.getId(id));
-        return "editContact";
+    public ModelAndView getEditContact(@PathVariable int id) {
+        ModelAndView modelAndView = new ModelAndView("editContact");
+        Contact contact = this.contactDAOimpl.getId(id);
+        modelAndView.addObject("contact", contact);
+        return modelAndView;
     }
 
     @RequestMapping(value = "/contact/{id}", method = RequestMethod.POST)
-    public String saveEditContact(@ModelAttribute("personAttribute") Contact contact,
-                                  @PathVariable("id") int id,
-                                  Model model) {
-        contact.setId(id);
+    public String saveEditContact(Contact contact) {
         this.contactDAOimpl.editContact(contact);
-        model.addAttribute("id", id);
         return "redirect:/contact/all";
     }
 
-    @RequestMapping(value = "/contact/{id}/remove", method = RequestMethod.POST)
+    @RequestMapping(value = "/contact/{id}/remove", method = RequestMethod.GET)
     public String removeContact(@PathVariable int id) {
-        this.contactDAOimpl.getId(id);
         this.contactDAOimpl.removeContact(id);
         return "redirect:/contact/all";
     }
